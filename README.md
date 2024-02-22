@@ -1,0 +1,1 @@
+# power-platform-connector-linter
