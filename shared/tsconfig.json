@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "out",			
+		"declaration": true,
+		"declarationMap": true,
+		"composite": true
+	},
+	"references": []	
+}

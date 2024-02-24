@@ -1,0 +1,41 @@
+{
+  "$id": "http://swagger.io/v2/extended-schema.json#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Extended Schema",
+  "allOf": [
+    {
+      "$ref": "http://swagger.io/v2/schema.json#"
+    },
+    {
+      "type": "object",
+      "required": ["swagger", "info", "paths", "x-ms-connector-metadata"],
+      "properties": {
+        "info":{
+          "required": [
+            "version",
+            "title",
+            "contact"
+          ],
+          "contact":{
+            "required": [
+              "name",
+              "url",
+              "email"
+            ]
+          }
+        },
+        "x-ms-connector-metadata": {
+          "items": {
+            "properties": {
+              "propertyName": {
+                "dynamicEnumCheck": {
+                  "enum": ["Website", "Privacy policy", "Categories"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

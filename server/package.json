@@ -1,24 +1,24 @@
 {
-	"name": "lsp-sample-server",
-	"description": "Example implementation of a language server in node.",
+	"name": "powerplatform-connector-linter-server",
+	"description": "Server for the Power Platform Connector Linter",
 	"version": "1.0.0",
-	"author": "Microsoft Corporation",
+	"author": "Richard Wilson <richard.a.wilson@microsoft.com> (https://www.richardawilson.com)",
 	"license": "MIT",
 	"engines": {
 		"node": "*"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/rwilson504/power-platform-connector-linter"
 	},
 	"dependencies": {
 		"@stoplight/spectral-core": "^1.18.3",
 		"@stoplight/spectral-parsers": "^1.0.3",
 		"@stoplight/spectral-ruleset-bundler": "^1.5.2",
-		"@types/ajv": "^1.0.0",
 		"ajv": "^8.12.0",
 		"ajv-draft-04": "^1.0.0",
 		"ajv-formats": "^2.1.1",
+		"ajv-keywords": "^5.1.0",
 		"fs": "^0.0.1-security",
 		"json5": "^2.2.3",
 		"node-fetch": "^3.3.2",
@@ -27,6 +27,7 @@
 	},
 	"scripts": {},
 	"devDependencies": {
+		"@types/ajv-keywords": "^3.5.0",
 		"@types/json5": "^2.2.0"
 	}
 }
