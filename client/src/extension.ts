@@ -62,7 +62,7 @@ async function cacheSchema(
 export async function activate(context: ExtensionContext) {
   // The server is implemented in node
   const serverModule = context.asAbsolutePath(
-    path.join("server", "out", "server.js")
+    path.join("dist", "server", "src", "server.js")
   );
 
   const cacheDir = context.globalStorageUri.fsPath;

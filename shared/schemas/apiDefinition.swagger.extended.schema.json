@@ -10,28 +10,100 @@
       "type": "object",
       "required": ["swagger", "info", "paths", "x-ms-connector-metadata"],
       "properties": {
-        "info":{
-          "required": [
-            "version",
-            "title",
-            "contact"
-          ],
-          "contact":{
-            "required": [
-              "name",
-              "url",
-              "email"
-            ]
+        "info": {
+          "required": ["version", "title", "contact"],
+          "properties": {
+            "title": {
+              "maxLength": 30,
+              "isEnglish": true,
+              "pattern": ".*[a-zA-Z0-9]$",
+              "forbiddenWords": [
+                "API",
+                "APIs",
+                "API's",
+                "Connector",
+                "Power Apps",
+                "PowerApps",
+                "Power Automate",
+                "PowerAutomate"
+              ]
+            },
+            "description": {
+              "minLength": 30,
+              "maxLength": 500,
+              "isEnglish": true,
+              "forbiddenWords": [
+                "Power Apps",
+                "PowerApps",
+                "Power Automate",
+                "PowerAutomate"
+              ]
+            },
+            "contact": {
+              "required": ["name", "email"]
+            }
+          }
+        },
+        "paths": {
+          "patternProperties": {
+            "^/": {
+              "patternProperties": {
+                "^(get|put|post|delete|options|head|patch)$": {
+                  "properties": {
+                    "summary" : {
+                      "maxLength": 80,
+                      "isEnglish": true,
+                      "pattern": "^[^/]*$",
+                      "validSentence": {
+                        "minWords": 1,
+                        "endWithPunctuation": false
+                      }
+                    },
+                    "description":{
+                      "validSentence":{
+                        "minWords" : 3,
+                        "endWithPunctuation": true
+                      }
+                    },
+                    "operationId": {
+                      "validOperationId": true
+                    },
+                    "parameters": {
+                      "required": ["name", "in", "x-ms-summary"]
+                    }
+                  },
+                  "responses" :{
+                    "schema": {
+                      "properties" :{
+                        "description": {
+                          "validSentence": {
+                            "minWords": 3,
+                            "endWithPunctuation": true}
+                        },
+                        "x-ms-summary": {
+                          "maxLength": 80,
+                          "isEnglish": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "x-ms-connector-metadata": {
-          "items": {
+          "validateCategories": true,
+          "items": {            
             "properties": {
               "propertyName": {
                 "dynamicEnumCheck": {
-                  "enum": ["Website", "Privacy policy", "Categories"]
+                  "enum": ["Website", "Privacy Policy", "Privacy policy", "Categories"]
                 }
-              }
+              },
+              "propertyValue":{
+                "minLength": 1
+              }            
             }
           }
         }

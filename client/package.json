@@ -2,6 +2,7 @@
 	"name": "powerplatform-connector-linter-client",
 	"description": "Client for the Power Platform Connector Linter",
 	"author": "Richard Wilson <richard.a.wilson@microsoft.com> (https://www.richardawilson.com)",
+	"publisher": "Power Apps RAW",
 	"license": "MIT",
 	"version": "0.0.1",
 	"repository": {

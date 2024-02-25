@@ -1,16 +1,23 @@
 {
   "name": "powerplatform-connector-linter",
-  "description": "A VS Code extension that provides validation for Power Platform connectors.",
+  "displayName": "Power Platform Connector Linter",
+  "description": "A VS Code extension that provides validation for Power Platform connector JSON files.",
   "author": "Richard Wilson <richard.a.wilson@microsoft.com> (https://www.richardawilson.com)",
+  "publisher": "RichardWilson",
   "license": "MIT",
   "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/rwilson504/power-platform-connector-linter"
   },
-  "categories": [],
+  "categories": [
+    "Linters"
+  ],
   "keywords": [
-    "multi-root ready"
+    "powerplatform",
+    "powerapps",
+    "powerautomate",
+    "connector"
   ],
   "engines": {
     "vscode": "^1.75.0"
@@ -19,6 +26,11 @@
     "onLanguage:json"
   ],
   "main": "./client/out/extension",
+  "icon": "./images/icon.jpg",
+  "galleryBanner": {
+    "color": "#5391B3",
+    "theme": "dark"
+  },
   "contributes": {
     "configuration": {
       "type": "object",
@@ -44,12 +56,16 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
     "compile": "tsc -b && copyfiles -u 2 shared/schemas/*.json server/out/schemas",
     "watch": "tsc -b -w & copyfiles -u 2 shared/schemas/*.json server/out/schemas -w",
     "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-    "test": "sh ./scripts/e2e.sh"
+    "test": "sh ./scripts/e2e.sh",
+    "esbuild-base": "esbuild ./client/src/extension.ts ./server/src/server.ts --bundle --outdir=dist --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -57,8 +73,12 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "copyfiles": "^2.4.1",
+    "esbuild": "^0.20.1",
     "eslint": "^8.56.0",
     "mocha": "^10.2.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "json-source-map": "^0.6.1"
   }
 }

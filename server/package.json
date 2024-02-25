@@ -4,6 +4,7 @@
 	"version": "1.0.0",
 	"author": "Richard Wilson <richard.a.wilson@microsoft.com> (https://www.richardawilson.com)",
 	"license": "MIT",
+	"publisher": "Power Apps RAW",
 	"engines": {
 		"node": "*"
 	},

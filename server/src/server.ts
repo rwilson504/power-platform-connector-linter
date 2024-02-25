@@ -20,6 +20,8 @@ import addFormats from "ajv-formats";
 import { addCustomKeywords } from "./customKeywords";
 import { SchemaMap } from '../../shared/out/schemaMappings';
 import { LinterSettings } from '../../shared/out/types/interfaces';
+import * as jsonMap from "json-source-map";
+import { ParseResult } from 'json-source-map';
 
 // Create a connection to the client
 const connection: Connection = createConnection(ProposedFeatures.all);
@@ -33,14 +35,14 @@ let settings: LinterSettings = {
 
 // Initialize AJV with your settings
 // AJV4 is used for draft-04 schemas, AJV is used for other drafts
-const ajv4 = new Ajv4({ strict: false });
+const ajv4 = new Ajv4({ strict: false, allErrors: true });
 addFormats(ajv4);
 addCustomKeywords(ajv4);
-const ajv = new Ajv({ strict: false });
+const ajv = new Ajv({ strict: false, allErrors: true});
 addFormats(ajv);
 addCustomKeywords(ajv);
 
-// cahceDir is set in onInitialize which passes the ExtensionContext.globalStorageUri.fsPath
+// cacheDir is set in onInitialize which passes the ExtensionContext.globalStorageUri.fsPath
 let cacheDir: string = "";
 
 // Flag to track if the extension has been initialized
@@ -81,7 +83,7 @@ async function loadSchemaContent(schemaPath: string) {
   try {
     // Load the schema from the file system
     const schemaContent = fs.readFileSync(
-      path.join(__dirname, schemaPath),
+      path.join(__dirname, "\\schemas\\", schemaPath),
       "utf-8"
     );    
     const schema = json5.parse(schemaContent);
@@ -154,23 +156,37 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
   }
 
   try {
-    // Parse the document text
     const documentText = textDocument.getText();
-    // Parse the document text using JSON5
-    const data = await json5.parse(documentText);
+    const parsed: ParseResult = jsonMap.parse(documentText, undefined, { jsonc: true });
+    const data = parsed.data;
+    const pointers = parsed.pointers;
 
     // Validate the parsed data
     if (!validate(data)) {
-      const diagnostics: Diagnostic[] =
-        validate.errors?.map((error) => ({
+      const diagnostics: Diagnostic[] = validate.errors?.map((error) => {
+        // If the error has an instancePath, use it to find the position
+        let diagnosticRange = {
+          start: textDocument.positionAt(0),
+          end: textDocument.positionAt(documentText.length),
+        };
+
+        if (error.instancePath) {
+          const pointer = pointers[error.instancePath];
+          if (pointer && pointer.value && pointer.valueEnd) {
+            const startPos = textDocument.positionAt(pointer.value.pos);
+            const endPos = textDocument.positionAt(pointer.valueEnd.pos);
+            diagnosticRange = { start: startPos, end: endPos };
+          }
+        }
+
+        return {
           severity: DiagnosticSeverity.Warning,
-          range: {
-            start: textDocument.positionAt(0),
-            end: textDocument.positionAt(documentText.length),
-          },
-          message: `${error.instancePath} ${error.message}`,
+          range: diagnosticRange,
+          message: `${error.instancePath ?? 'Value'} ${error.message}`,
           source: "JSON Schema Validation",
-        })) ?? []; // Fallback to an empty array if validate.errors is null or undefined
+        };
+      }) ?? []; // Fallback to an empty array if validateFunction.errors is null or undefined
+
 
       // Send the diagnostics to the client
       connection.sendDiagnostics({ uri: textDocument.uri, diagnostics });
