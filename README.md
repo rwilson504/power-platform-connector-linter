@@ -1,7 +1,3 @@
-Certainly! Below is a template for a VS Code Marketplace README file for your Power Platform Connector Linter extension. This README focuses on the features, installation, usage instructions, and configuration.
-
----
-
 # Power Platform Connector Linter
 
 The Power Platform Connector Linter extension for Visual Studio Code provides real-time linting, validation, and best practices enforcement for Power Platform connector definitions. It helps developers and Power Platform enthusiasts ensure their connector definitions adhere to Microsoft's best practices and schema specifications.
