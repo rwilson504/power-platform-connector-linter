@@ -5,7 +5,7 @@
   "author": "Richard Wilson <richard.a.wilson@microsoft.com> (https://www.richardawilson.com)",
   "publisher": "RichardWilson",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/rwilson504/power-platform-connector-linter"
@@ -25,7 +25,7 @@
   "activationEvents": [
     "onLanguage:json"
   ],
-  "main": "./client/out/extension",
+  "main": "./dist/client/src/extension",
   "icon": "./images/icon.jpg",
   "galleryBanner": {
     "color": "#5391B3",
@@ -62,23 +62,22 @@
     "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "test": "sh ./scripts/e2e.sh",
-    "esbuild-base": "esbuild ./client/src/extension.ts ./server/src/server.ts --bundle --outdir=dist --external:vscode --format=cjs --platform=node",
+    "esbuild-base": "copyfiles -u 2 shared/schemas/*.json dist/server/src/schemas && esbuild ./client/src/extension.ts ./server/src/server.ts --bundle --outdir=dist --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
-    "test-compile": "tsc -p ./"
+    "test-compile": "tsc -p ./",
+    "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "^18.14.6",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
+    "@vscode/vsce": "^2.24.0",
     "copyfiles": "^2.4.1",
     "esbuild": "^0.20.1",
     "eslint": "^8.56.0",
     "mocha": "^10.2.0",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "json-source-map": "^0.6.1"
   }
 }

@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "https://raw.githubusercontent.com/rwilson504/power-platform-connector-linter/main/shared/schemas/paconn-apiProperties.extended.schema.json#",
+  "title": "Extended JSON schema for the apiProperties.json file",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "https://raw.githubusercontent.com/microsoft/PowerPlatformConnectors/master/schemas/paconn-apiProperties.schema.json#"
+    }],
+  "properties": {
+    "properties": {
+      "required": [
+        "iconBrandColor", "publisher", "stackOwner"
+      ]
+    }
+  }
+}

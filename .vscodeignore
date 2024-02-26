@@ -1,10 +1,25 @@
-.vscode/**
-**/*.ts
-**/*.map
-.gitignore
-tsconfig.json
-contributing.md
-.travis.yml
-**/node_modules/**
+# ignore all files
+*
+*/
 
-**/src/**
+# and these directories in subdirectories
+.vscode
+node_modules
+
+# keep these files
+!README.md
+!LICENSE.md
+!package.json
+!package-lock.json
+
+# keep these directories
+!dist
+!dist/**/*
+!images/*
+
+!client/node_modules/vscode-jsonrpc/**
+!client/node_modules/vscode-languageclient/**
+!client/node_modules/vscode-languageserver-protocol/**
+!client/node_modules/vscode-languageserver-types/**
+!client/node_modules/{brace-expansion,concat-map,balanced-match}/**
+!client/node_modules/{semver,lru-cache,yallist}/**
