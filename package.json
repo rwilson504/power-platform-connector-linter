@@ -62,7 +62,7 @@
     "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "test": "sh ./scripts/e2e.sh",
-    "esbuild-base": "copyfiles -u 2 shared/schemas/*.json dist/server/src/schemas && esbuild ./client/src/extension.ts ./server/src/server.ts --bundle --outdir=dist --external:vscode --format=cjs --platform=node",
+    "esbuild-base": "tsc -b && copyfiles -u 2 shared/schemas/*.json dist/server/src/schemas && esbuild ./client/src/extension.ts ./server/src/server.ts --bundle --outdir=dist --external:vscode --format=cjs --platform=node",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test-compile": "tsc -p ./",
